@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "906251065241",
+    "firebase_url": "https://mangaso-2018.firebaseio.com",
+    "project_id": "mangaso-2018",
+    "storage_bucket": "mangaso-2018.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906251065241:android:4169b37ad8a91159",
+        "android_client_info": {
+          "package_name": "guate.armandos20.com.mangaso"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906251065241-rgais2to4akbvc2vjpjhqlibff6ad0v9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "guate.armandos20.com.mangaso",
+            "certificate_hash": "fcb9cf7c53ba7527478d0c3c80bfce92ea06e42e"
+          }
+        },
+        {
+          "client_id": "906251065241-1uo85vh08d0au48uebmsk19v6i048loi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7FbFr9yjaYFCcm9xEenX9vq0gUf2IWBg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906251065241-1uo85vh08d0au48uebmsk19v6i048loi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
