@@ -91,8 +91,9 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NewNoteDialog dialog = new NewNoteDialog();
-                dialog.show(getSupportFragmentManager(), getString(R.string.dialog_new_note));
+                startActivity(new Intent(getApplicationContext(),MangaDetalleActivity.class));
+                //NewNoteDialog dialog = new NewNoteDialog();
+                //dialog.show(getSupportFragmentManager(), getString(R.string.dialog_new_note));
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
             }
@@ -261,13 +262,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onNoteSelected(Home note) {
-        ViewNoteDialog dialog = ViewNoteDialog.newInstance(note);
-        dialog.show(getSupportFragmentManager(),getString(R.string.dialog_view_note));
+        //startActivity(new Intent(this,MangaDetalleActivity.class));
+        Intent intent = new Intent(this, MangaDetalleActivity.class);
+        intent.putExtra("miLista", note);
+        startActivity(intent);
+
+        /*ViewNoteDialog dialog = ViewNoteDialog.newInstance(note);
+        dialog.show(getSupportFragmentManager(),getString(R.string.dialog_view_note));*/
     }
 
     @Override
     public void updateNote(final Home note) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        /*FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         DocumentReference noteRef = db.collection("Cartelera")
                 .document(note.getCartelera_id());
@@ -285,16 +291,16 @@ public class MainActivity extends AppCompatActivity
                     makeSnackBarMessage("Failed. Check Logs.");
                 }
             }
-        });
-        //Toast.makeText(this, "Hola que hace XD?", Toast.LENGTH_SHORT).show();
+        });*/
+        Toast.makeText(this, "No es requerido para esta version", Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void deleteNote(final Home note) {
-        //Toast.makeText(this, "Hola que hace XD?", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "No es requerido para esta version", Toast.LENGTH_SHORT).show();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        /* db = FirebaseFirestore.getInstance();
 
         DocumentReference noteRef = db.collection("Cartelera")
                 .document(note.getCartelera_id());
@@ -309,7 +315,7 @@ public class MainActivity extends AppCompatActivity
                     makeSnackBarMessage("Failed. Check Log.");
                 }
             }
-        });
+        });*/
     }
 
     private void makeSnackBarMessage(String message){
