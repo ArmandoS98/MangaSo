@@ -19,8 +19,9 @@ public class Home implements Parcelable{
     private String id_pos;
     private String url_portada;
     private String temporadas;
+    private String usuarios;
 
-    public Home(String titulo, String descripcion, String ranking ,Date timestamp, String cartelera_id, String id_pos, String url_portada, String temporadas) {
+    public Home(String titulo, String descripcion, String ranking ,Date timestamp, String cartelera_id, String id_pos, String url_portada, String temporadas, String usuarios) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.ranking = ranking;
@@ -29,6 +30,7 @@ public class Home implements Parcelable{
         this.id_pos = id_pos;
         this.url_portada = url_portada;
         this.temporadas = temporadas;
+        this.usuarios = usuarios;
     }
 
     public Home() {
@@ -43,6 +45,7 @@ public class Home implements Parcelable{
         id_pos = in.readString();
         url_portada = in.readString();
         temporadas = in.readString();
+        usuarios = in.readString();
     }
 
     public static final Creator<Home> CREATOR = new Creator<Home>() {
@@ -121,6 +124,14 @@ public class Home implements Parcelable{
         this.temporadas = temporadas;
     }
 
+    public String getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(String usuarios) {
+        this.usuarios = usuarios;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -135,6 +146,7 @@ public class Home implements Parcelable{
         parcel.writeString(id_pos);
         parcel.writeString(url_portada);
         parcel.writeString(temporadas);
+        parcel.writeString(usuarios);
     }
 }
 

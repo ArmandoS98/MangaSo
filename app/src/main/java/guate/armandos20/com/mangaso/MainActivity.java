@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),MangaDetalleActivity.class));
+                Toast.makeText(MainActivity.this, "Hola que hace XD?", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(getApplicationContext(),MangaDetalleActivity.class));
                 //NewNoteDialog dialog = new NewNoteDialog();
                 //dialog.show(getSupportFragmentManager(), getString(R.string.dialog_new_note));
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -237,8 +238,7 @@ public class MainActivity extends AppCompatActivity
         //Aqui me quede
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference newNoteRef = db.collection("Cartelera")
-                .document();
+        DocumentReference newNoteRef = db.collection("Cartelera").document();
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
