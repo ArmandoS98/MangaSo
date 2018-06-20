@@ -32,14 +32,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import guate.armandos20.com.mangaso.AdaptadorFirestore.HomeRecyclerViewAdapter;
-import guate.armandos20.com.mangaso.Dialog.NewNoteDialog;
-import guate.armandos20.com.mangaso.Dialog.ViewNoteDialog;
+import guate.armandos20.com.mangaso.Activities.LoginActivity;
+import guate.armandos20.com.mangaso.Activities.MangaDetalleActivity;
+import guate.armandos20.com.mangaso.AdaptadorFirestore.AllAnimesRecyclerViewAdapter;
 import guate.armandos20.com.mangaso.Entidades.Home;
+import guate.armandos20.com.mangaso.Entidades.Peliculas;
+import guate.armandos20.com.mangaso.Fragments.AllAnimesFragment;
 import guate.armandos20.com.mangaso.Fragments.HomeFragment;
-import guate.armandos20.com.mangaso.Fragments.No1Fragment;
-import guate.armandos20.com.mangaso.Fragments.No2Fragment;
-import guate.armandos20.com.mangaso.Fragments.No3Fragment;
+import guate.armandos20.com.mangaso.Fragments.FavoritosFragment;
+import guate.armandos20.com.mangaso.Fragments.PeliculasFragment;
+import guate.armandos20.com.mangaso.Fragments.PopularesFragment;
 import guate.armandos20.com.mangaso.Interfaz.IMainActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -52,7 +54,6 @@ public class MainActivity extends AppCompatActivity
     //Fragmento Padre
     private Fragment fragmentoGenerico = null;
     private View mParentLayout;
-    private HomeRecyclerViewAdapter mHomeRecyclerViewAdapter;
 
     //firebase
     private FirebaseAuth mFirebaseAuth;
@@ -86,19 +87,6 @@ public class MainActivity extends AppCompatActivity
             finish();
             return;
         }
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Hola que hace XD?", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(getApplicationContext(),MangaDetalleActivity.class));
-                //NewNoteDialog dialog = new NewNoteDialog();
-                //dialog.show(getSupportFragmentManager(), getString(R.string.dialog_new_note));
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -183,13 +171,15 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             fragmentoGenerico = new HomeFragment();
         } else if (id == R.id.nav_gallery) {
-            fragmentoGenerico = new No1Fragment();
+            fragmentoGenerico = new AllAnimesFragment();
         } else if (id == R.id.nav_slideshow) {
-            fragmentoGenerico = new No2Fragment();
+            fragmentoGenerico = new FavoritosFragment();
         } else if (id == R.id.nav_manage) {
-            fragmentoGenerico = new No3Fragment();
+            fragmentoGenerico = new PopularesFragment();
+        } else if (id == R.id.nav_peliculas) {
+            fragmentoGenerico = new PeliculasFragment();
         } else if (id == R.id.nav_share) {
-            
+            Toast.makeText(this, "En desarrollo", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_send) {
             if (mFirebaseUser != null){
                 mFirebaseAuth.signOut();
@@ -221,7 +211,6 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-
     //METODO encargado de cargar el fragment HOME
     private void showHome(){
         fragmentoGenerico = new HomeFragment();
@@ -234,88 +223,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void createNewNote(String title, String content) {
-        //Aqui me quede
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        DocumentReference newNoteRef = db.collection("Cartelera").document();
-
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        Home note = new Home();
-        note.setTitulo(title);
-        note.setDescripcion(content);
-        note.setCartelera_id(newNoteRef.getId());
-        note.setId_pos("1");
-
-        newNoteRef.set(note).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    makeSnackBarMessage("Created a new note");
-                }else{
-                    makeSnackBarMessage("Failed. Check Log");
-                }
-            }
-        });
-    }
-
-    @Override
     public void onNoteSelected(Home note) {
         //startActivity(new Intent(this,MangaDetalleActivity.class));
         Intent intent = new Intent(this, MangaDetalleActivity.class);
         intent.putExtra("miLista", note);
         startActivity(intent);
-
-        /*ViewNoteDialog dialog = ViewNoteDialog.newInstance(note);
-        dialog.show(getSupportFragmentManager(),getString(R.string.dialog_view_note));*/
     }
 
     @Override
-    public void updateNote(final Home note) {
-        /*FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public void onNoteSelected2(Peliculas note) {
+        Intent intent = new Intent(this, MangaDetalleActivity.class);
+        intent.putExtra("miLista2", note);
 
-        DocumentReference noteRef = db.collection("Cartelera")
-                .document(note.getCartelera_id());
-
-        noteRef.update(
-                "titulo", note.getTitulo(),
-                "descripcion", note.getDescripcion()
-        ).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    makeSnackBarMessage("Updated Note ");
-                    //mHomeRecyclerViewAdapter.updateNote(note);
-                }else{
-                    makeSnackBarMessage("Failed. Check Logs.");
-                }
-            }
-        });*/
-        Toast.makeText(this, "No es requerido para esta version", Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void deleteNote(final Home note) {
-        Toast.makeText(this, "No es requerido para esta version", Toast.LENGTH_SHORT).show();
-
-        /* db = FirebaseFirestore.getInstance();
-
-        DocumentReference noteRef = db.collection("Cartelera")
-                .document(note.getCartelera_id());
-
-        noteRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    makeSnackBarMessage("Deleted Note.");
-                    //mHomeRecyclerViewAdapter.removeNote(note);
-                }else{
-                    makeSnackBarMessage("Failed. Check Log.");
-                }
-            }
-        });*/
+        Toast.makeText(this, note.toString(), Toast.LENGTH_SHORT).show();
+        //startActivity(intent);
     }
 
     private void makeSnackBarMessage(String message){

@@ -4,22 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background_layouts"
-    tools:context=".Fragments.AllAnimesFragment">
+    tools:context=".Fragments.PeliculasFragment">
 
-
-    <android.support.v4.widget.SwipeRefreshLayout
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/swipe_refresh_layout">
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recycler_View"
-            android:orientation="vertical"/>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:id="@+id/recycler_View"
+        android:orientation="vertical"/>
 
     <com.victor.loading.rotate.RotateLoading
         android:id="@+id/rotateloading"
@@ -28,4 +19,5 @@
         app:loading_width="5dp"
         app:loading_color="#F87652"
         android:layout_centerInParent="true" />
+
 </RelativeLayout>

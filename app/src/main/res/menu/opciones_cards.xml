@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_item_ver_mas" android:title="Ver mas"/>
+
+    <item android:id="@+id/menu_item_add_to_favorite" android:title="Añadir a favoritos"/>
+</menu>

@@ -21,11 +21,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".Activities.LoginActivity" />
         <activity
-            android:name=".MangaDetalleActivity"
+            android:name=".Activities.MangaDetalleActivity"
             android:label="@string/title_activity_manga_detalle"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".Activities.ViewMangaReadActivity"></activity>
     </application>
 
 </manifest>

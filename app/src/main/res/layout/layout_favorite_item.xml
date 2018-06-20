@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="6dp">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imagen_preview"
+        android:layout_width="match_parent"
+        android:layout_height="185dp"
+        android:src="@drawable/boku"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="#fff"
+        android:text="This is the First Note"
+        android:textStyle="bold"
+        android:layout_below="@+id/imagen_preview"
+        android:id="@+id/title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="#fff"
+        android:text="This is the First Note"
+        android:layout_below="@+id/title"
+        android:id="@+id/ranking"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ranking"
+        android:textSize="13sp"
+        android:textColor="#fff"
+        android:text="May 3, 2910"
+        android:id="@+id/timestamp" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_best"/>
+</RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

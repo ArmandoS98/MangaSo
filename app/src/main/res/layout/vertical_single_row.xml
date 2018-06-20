@@ -17,7 +17,7 @@
             android:layout_height="50dp"
             android:layout_weight=".2"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/prueba" />
+            android:src="@drawable/ic_launcher_background" />
 
         <LinearLayout
             android:layout_width="0dp"

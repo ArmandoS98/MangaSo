@@ -13,16 +13,20 @@
         android:title="Home" />
     <item
         android:id="@+id/nav_gallery"
-        android:icon="@drawable/ic_grabadora"
-        android:title="In Theaters" />
+        android:icon="@drawable/ic_anime"
+        android:title="Animes" />
     <item
         android:id="@+id/nav_slideshow"
-        android:icon="@drawable/ic_watch"
-        android:title="Upcoming" />
+        android:icon="@drawable/ic_favoritos"
+        android:title="Favoritos" />
     <item
         android:id="@+id/nav_manage"
+        android:icon="@drawable/ic_populares"
+        android:title="Populares" />
+    <item
+        android:id="@+id/nav_peliculas"
         android:icon="@drawable/ic_tv"
-        android:title="Tv Series" />
+        android:title="Peliculas" />
 
     <item android:title="Mas">
         <menu>

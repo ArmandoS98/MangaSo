@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -17,32 +19,32 @@ import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import guate.armandos20.com.mangaso.Entidades.Home;
 import guate.armandos20.com.mangaso.Interfaz.IMainActivity;
 import guate.armandos20.com.mangaso.R;
 
-public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class AllAnimesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable{
     private static final String TAG = "AllAnimesRecyclerViewAdapter";
     private ArrayList<Home> mNotes = new ArrayList<>();
+    private ArrayList<Home> mAnimesList;
     private IMainActivity mIMainActivity;
     private Context mContext;
     private int mSelectedNoteIndex;
 
-    public HomeRecyclerViewAdapter(Context context, ArrayList<Home> notes) {
+    public AllAnimesRecyclerViewAdapter(Context context, ArrayList<Home> notes) {
         mNotes = notes;
         mContext = context;
+        mAnimesList = new ArrayList<>(notes);
     }
-
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder;
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_favorite_item, parent, false);
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_note_list_item, parent, false);
         holder = new ViewHolder(view);
-
         return holder;
     }
 
@@ -52,8 +54,14 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             Glide.with(mContext).load(mNotes.get(position).getUrl_portada()).into(((ViewHolder)holder).preview);
             ((ViewHolder)holder).title.setText(mNotes.get(position).getTitulo());
 
-            /*((ViewHolder)holder).ranking.setText("Ranking: " + mNotes.get(position).getRanking());
-            SimpleDateFormat spf = new SimpleDateFormat("MMM dd, yyyy");
+            ((ViewHolder) holder).imgoverflow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showPopupMenu(((ViewHolder) holder).imgoverflow);
+                }
+            });
+            //((ViewHolder)holder).ranking.setText("Ranking: " + mNotes.get(position).getRanking());
+            /*SimpleDateFormat spf = new SimpleDateFormat("MMM dd, yyyy");
             String date = spf.format(mNotes.get(position).getTimestamp());
             ((ViewHolder)holder).timestamp.setText(date);*/
         }
@@ -66,6 +74,42 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         popupMenu.setOnMenuItemClickListener(new opciones_cardview());
         popupMenu.show();
     }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<Home> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0){
+                filteredList.addAll(mAnimesList);
+            }else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Home mHome : mAnimesList){
+                    if (mHome.getTitulo().toLowerCase().contains(filterPattern)){
+                        filteredList.add(mHome);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mNotes.clear();
+            mNotes.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     class opciones_cardview implements PopupMenu.OnMenuItemClickListener{
 
@@ -124,12 +168,11 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             //ranking = itemView.findViewById(R.id.ranking);
             //timestamp = itemView.findViewById(R.id.timestamp);
 
-            //itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-
             mSelectedNoteIndex = getAdapterPosition();
             mIMainActivity.onNoteSelected(mNotes.get(mSelectedNoteIndex));
         }

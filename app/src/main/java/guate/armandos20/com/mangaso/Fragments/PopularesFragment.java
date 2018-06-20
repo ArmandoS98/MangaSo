@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,35 +24,33 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.victor.loading.book.BookLoading;
+import com.victor.loading.rotate.RotateLoading;
 
 import java.util.ArrayList;
 
 import guate.armandos20.com.mangaso.AdaptadorFirestore.AllAnimesRecyclerViewAdapter;
-import guate.armandos20.com.mangaso.AdaptadorFirestore.HomeRecyclerViewAdapter;
+import guate.armandos20.com.mangaso.AdaptadorFirestore.PopularesRecyclerViewAdapter;
 import guate.armandos20.com.mangaso.Entidades.Home;
-import guate.armandos20.com.mangaso.MainActivity;
 import guate.armandos20.com.mangaso.R;
 
-public class HomeFragment extends Fragment implements
-        SwipeRefreshLayout.OnRefreshListener {
-
+public class PopularesFragment extends Fragment implements
+        View.OnClickListener {
+    private static final String TAG = "PopularesFragment";
     //Firebase
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     //widgets
-    private FloatingActionButton mFab;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private BookLoading mBookLoading;
+    private RotateLoading mRotateLoading;
 
     //vars
     private View mParentLayout;
     private ArrayList<Home> mNotes = new ArrayList<>();
-    private HomeRecyclerViewAdapter mRecyclerViewAdapter;
+    private PopularesRecyclerViewAdapter mPopularesRecyclerViewAdapter;
     private DocumentSnapshot mLastQueriedDocument;
 
-    public HomeFragment() {
+    public PopularesFragment() {
         // Required empty public constructor
     }
 
@@ -62,38 +59,17 @@ public class HomeFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_no1, container, false);
+        View view = inflater.inflate(R.layout.fragment_no3, container, false);
         mParentLayout = view.findViewById(android.R.id.content);
         mRecyclerView = view.findViewById(R.id.recycler_View);
-        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
-        mBookLoading = view.findViewById(R.id.bookloading);
+        mRotateLoading = view.findViewById(R.id.rotateloading);
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mBookLoading.start();
+        mRotateLoading.start();
 
         initRecyclerView();
         getNotes();
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Hola que hace XD?", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(getApplicationContext(),MangaDetalleActivity.class));
-                //NewNoteDialog dialog = new NewNoteDialog();
-                //dialog.show(getSupportFragmentManager(), getString(R.string.dialog_new_note));
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-            }
-        });
-
         return view;
-    }
-
-    @Override
-    public void onRefresh() {
-        getNotes();
-        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void getNotes(){
@@ -104,13 +80,11 @@ public class HomeFragment extends Fragment implements
         Query noteQuery = null;
         if (mLastQueriedDocument != null){
             noteQuery = notesCollectionRef
-                    .whereEqualTo("usuarios", FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    /*.orderBy("timestamp", Query.Direction.DESCENDING)*/
+                    .whereEqualTo("tendencia", "si")
                     .startAfter(mLastQueriedDocument);
         }else{
             noteQuery = notesCollectionRef
-                    .whereEqualTo("usuarios", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    /*.orderBy("timestamp", Query.Direction.DESCENDING);*/
+                    .whereEqualTo("tendencia", "si");
         }
 
         noteQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -129,7 +103,8 @@ public class HomeFragment extends Fragment implements
                                 .get(task.getResult().size() - 1);
                     }
 
-                    mRecyclerViewAdapter.notifyDataSetChanged();
+                    mRotateLoading.stop();
+                    mPopularesRecyclerViewAdapter.notifyDataSetChanged();
 
                 }else{
                     makeSnackBarMessage("Query Failed. Check Logs.");
@@ -139,15 +114,20 @@ public class HomeFragment extends Fragment implements
     }
 
     private void initRecyclerView() {
-        if(mRecyclerViewAdapter == null){
-            mRecyclerViewAdapter = new HomeRecyclerViewAdapter(getContext(), mNotes);
+        if(mPopularesRecyclerViewAdapter == null){
+            mPopularesRecyclerViewAdapter = new PopularesRecyclerViewAdapter(getContext(), mNotes);
         }
+        //StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, LinearLayout.VERTICAL);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(mRecyclerViewAdapter);
+        mRecyclerView.setAdapter(mPopularesRecyclerViewAdapter);
     }
 
     private void makeSnackBarMessage(String message){
         Snackbar.make(mParentLayout, message, Snackbar.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }

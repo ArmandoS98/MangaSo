@@ -2,14 +2,9 @@ package guate.armandos20.com.mangaso.Interfaz;
 
 
 import guate.armandos20.com.mangaso.Entidades.Home;
+import guate.armandos20.com.mangaso.Entidades.Peliculas;
 
 public interface IMainActivity {
-
-    void createNewNote(String title, String content);
-
     void onNoteSelected(Home note);
-
-    void updateNote(Home note);
-
-    void deleteNote(Home note);
+    void onNoteSelected2(Peliculas note);
 }

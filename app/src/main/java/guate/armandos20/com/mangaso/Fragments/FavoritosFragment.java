@@ -9,18 +9,17 @@ import android.view.ViewGroup;
 
 import guate.armandos20.com.mangaso.R;
 
-public class No3Fragment extends Fragment {
+public class FavoritosFragment extends Fragment {
 
-    public No3Fragment() {
+    public FavoritosFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_no3, container, false);
+        return inflater.inflate(R.layout.fragment_no2, container, false);
     }
 
 }
